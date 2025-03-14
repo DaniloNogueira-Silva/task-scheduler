@@ -18,7 +18,7 @@ export class Task extends AbstractDocument {
   payload: object;
 
   @Prop({ required: true, name: 'execute_at' })
-  executeAt: Date;
+  execute_at: Date;
 
   @Prop({
     required: true,

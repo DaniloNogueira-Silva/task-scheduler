@@ -1,8 +1,9 @@
+import * as Joi from 'joi';
+
 import { Task, TaskSchema } from './schemas/task.schema';
 
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from '@app/common';
-import Joi from 'joi';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TaskController } from './task.controller';
@@ -15,6 +16,7 @@ import { TaskService } from './task.service';
       isGlobal: true,
       validationSchema: Joi.object({
         MONGODB_URI: Joi.string().required(),
+        PORT: Joi.number().required(),
       }),
       envFilePath: './apps/task-scheduler/.env',
     }),

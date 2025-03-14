@@ -1,4 +1,22 @@
 services:
+  task-scheduler:
+    build:
+      context: .
+      dockerfile: ./apps/task-scheduler/Dockerfile
+      target: development
+    command: npm run start:dev task-scheduler
+    env_file:
+      - ./apps/task-scheduler/.env
+    depends_on:
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '3000:3000'
+
   mongodb-primary:
     image: docker.io/bitnami/mongodb:5.0
     environment:
