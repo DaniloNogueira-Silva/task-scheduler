@@ -1,8 +1,11 @@
 import { NestFactory } from '@nestjs/core';
+import { RmqService } from '@app/common';
 import { WorkerConsumerModule } from './worker-consumer.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(WorkerConsumerModule);
-  await app.listen(process.env.port ?? 3000);
+  const rmqService = app.get<RmqService>(RmqService);
+  app.connectMicroservice(rmqService.getOptions('WORKER_CONSUMER'));
+  await app.startAllMicroservices();
 }
 bootstrap();

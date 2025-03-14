@@ -1,7 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { WorkerConsumerModule } from './../src/worker-consumer.module';
+
+import { Test, TestingModule } from '@nestjs/testing';
+
+import { INestApplication } from '@nestjs/common';
+import { WorkerConsumerModule } from '../src/worker-consumer.module';
 
 describe('WorkerConsumerController (e2e)', () => {
   let app: INestApplication;

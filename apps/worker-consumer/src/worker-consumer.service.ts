@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
 export class WorkerConsumerService {
-  getHello(): string {
-    return 'Hello World!';
+  private readonly logger = new Logger(WorkerConsumerService.name);
+  
+  processTask(data: any) {
+    this.logger.log('processing...', data);
   }
 }

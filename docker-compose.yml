@@ -11,11 +11,35 @@ services:
       - mongodb-primary
       - mongodb-secondary
       - mongodb-arbiter
+      - worker-consumer
+      - rabbitmq
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - '3000:3000'
+
+  worker-consumer:
+    build:
+      context: .
+      dockerfile: ./apps/worker-consumer/Dockerfile
+      target: development
+    command: npm run start:dev worker-consumer
+    env_file:
+      - ./apps/worker-consumer/.env
+    depends_on:
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+      - rabbitmq
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - '5672:5672'
 
   mongodb-primary:
     image: docker.io/bitnami/mongodb:5.0

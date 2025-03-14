@@ -1,14 +1,15 @@
 import * as Joi from 'joi';
 
+import { DatabaseModule, RmqModule } from '@app/common';
 import { Task, TaskSchema } from './schemas/task.schema';
 
 import { ConfigModule } from '@nestjs/config';
-import { DatabaseModule } from '@app/common';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TaskController } from './task.controller';
 import { TaskRepository } from './task.repository';
 import { TaskService } from './task.service';
+import { WORKER_CONSUMER_SERVICE } from './constants/services';
 
 @Module({
   imports: [
@@ -22,6 +23,9 @@ import { TaskService } from './task.service';
     }),
     DatabaseModule,
     MongooseModule.forFeature([{ name: Task.name, schema: TaskSchema }]),
+    RmqModule.register({ 
+      name: WORKER_CONSUMER_SERVICE,
+    }),
   ],
   controllers: [TaskController],
   providers: [TaskService, TaskRepository],
